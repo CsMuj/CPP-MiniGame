@@ -1,2 +1,7 @@
 main
 main.dSYM
+a.out
+game
+*.exe
+*.o
+*.swp
