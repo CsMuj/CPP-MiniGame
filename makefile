@@ -1,5 +1,5 @@
 CXX=g++
-CPPFLAGS=-g -Wall
+CPPFLAGS=-g -Wall -std=c++17
 LDFLAGS=-g
 
 PROGRAM_NAME=game
