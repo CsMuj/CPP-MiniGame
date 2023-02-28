@@ -2,31 +2,76 @@
 #include <iostream>
 #include <vector>
 
+int random(int x, int y) {
+    return (rand() % (y - x)) + x;
+};
+
 class entity {
     public:
-        std::string name;
-        int hitPoints = 10;
-        int defencePoints = 1;
-        int attackPoints = 1;
-        int luckPoints = 1;
-        int actionPoints = 1;
-        std::vector<std::string> special_skills = {};
+        std::string named;
+        double hitPoints;
+        int defencePoints;
+        int attackPoints;
+        int luckPoints;
+        int actionPoints;
+        std::vector<std::string> special_skills;
+        bool damageStep(entity& attacker);
 
-        entity(std::string name, int hitpoints, defencePoints, attackPoints, luckPoints, actionsPoints) {
-            name = name;
-            hitpoints = hitpoints
+        entity(std::string name) {
+            named = name;
+            hitPoints = random(10, 30);
+            defencePoints = random(1,5);
+            attackPoints = random(1,5);
+            luckPoints = random(1,5);
+            actionPoints = random(1,2);
         }
 };
 
-class player : entity {
+class player : public entity {
     public:
         int staminaPoints = 10;
         int level = 1;
+        void levelUp();
 
-        player(int stamina, int level, std::string name, int hitpoints) 
-        : entity(name, hitpoints) {
-            staminaPoints = stamina;
-            level = level;
+        player(std::string name) 
+        : entity(name) {
         }
     
 };
+
+bool entity::damageStep(entity& attacker) {
+    int chance = random(1,100);
+
+    
+    if (100 - luckPoints <= chance) {
+        chance = 0;
+        std::cout << "Miss!" << std::endl;
+    }
+    else if (chance <= attacker.luckPoints) {
+        chance = 2;
+        std::cout << "Critcal Hit!" << std::endl;
+    }
+
+    hitPoints = hitPoints - ((5 * (attacker.attackPoints / 100 + 1)) / (defencePoints / 100 + 1)) * chance;
+
+    if (hitPoints < 0) {
+        std::cout << "Dead!" << std::endl;
+        return false;
+    }
+
+    std::cout << "Your remaining HP:  " << hitPoints << std::endl;
+    return true;
+};
+
+void player::levelUp() {
+    for (int i = 1; i > 1; i++) {
+        level += 1;  
+        hitPoints = random(10, 30);
+        defencePoints = random(1,5);
+        attackPoints = random(1,5);
+        luckPoints = random(1,5);
+        actionPoints = random(1,2);
+    }
+
+};
+
