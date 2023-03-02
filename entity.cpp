@@ -36,13 +36,11 @@ class player : public entity {
         player(std::string name) 
         : entity(name) {
         }
-    
 };
 
 bool entity::damageStep(entity& attacker) {
     int chance = random(1,100);
 
-    
     if (100 - luckPoints <= chance) {
         chance = 0;
         std::cout << "Miss!" << std::endl;

@@ -12,6 +12,6 @@ int main() {
     entity mob("mob");
 
     mob.damageStep(p);
-
+    
     return 0;
 }
