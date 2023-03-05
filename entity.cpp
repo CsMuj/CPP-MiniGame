@@ -4,7 +4,7 @@
 
 int random(int x, int y) {
     return (rand() % (y - x)) + x;
-};
+}
 
 class entity {
     public:
@@ -16,6 +16,7 @@ class entity {
         int actionPoints;
         std::vector<std::string> special_skills;
         bool damageStep(entity& attacker);
+        void stats();
 
         entity(std::string name) {
             named = name;
@@ -28,13 +29,15 @@ class entity {
 };
 
 class player : public entity {
-    public:
-        int staminaPoints = 10;
-        int level = 1;
+    public: 
+        int staminaPoints;
+        int level;
         void levelUp();
 
         player(std::string name) 
         : entity(name) {
+            staminaPoints = 10;
+            level = 1;
         }
 };
 
@@ -57,9 +60,9 @@ bool entity::damageStep(entity& attacker) {
         return false;
     }
 
-    std::cout << "Your remaining HP:  " << hitPoints << std::endl;
+    std::cout << "Remaining HP:  " << hitPoints << std::endl;
     return true;
-};
+}
 
 void player::levelUp() {
     for (int i = 1; i > 1; i++) {
@@ -71,5 +74,9 @@ void player::levelUp() {
         actionPoints = random(1,2);
     }
 
-};
+}
+
+void entity::stats() {
+    std::cout << hitPoints << std::endl << defencePoints << std::endl << attackPoints << std::endl << luckPoints << std::endl << actionPoints << std::endl;
+}
 
