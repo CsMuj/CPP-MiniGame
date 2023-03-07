@@ -32,12 +32,14 @@ class player : public entity {
     public: 
         int staminaPoints;
         int level;
-        void levelUp();
+        int exp;
+        void levelUp(entity& attacker);
 
         player(std::string name) 
         : entity(name) {
             staminaPoints = 10;
             level = 1;
+            exp = 0;
         }
 };
 
@@ -64,7 +66,7 @@ bool entity::damageStep(entity& attacker) {
     return true;
 }
 
-void player::levelUp() {
+void player::levelUp(entity& attacker) {
     for (int i = 1; i > 1; i++) {
         level += 1;  
         hitPoints = random(10, 30);
@@ -73,10 +75,9 @@ void player::levelUp() {
         luckPoints = random(1,5);
         actionPoints = random(1,2);
     }
-
 }
 
 void entity::stats() {
-    std::cout << hitPoints << std::endl << defencePoints << std::endl << attackPoints << std::endl << luckPoints << std::endl << actionPoints << std::endl;
+    std::cout << hitPoints << std::endl  << defencePoints << std::endl << attackPoints << std::endl << luckPoints << std::endl << actionPoints << std::endl;
 }
 

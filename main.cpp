@@ -1,20 +1,29 @@
 #include <string>
 #include <iostream>
-#include <cctype>
-#include <unistd.h>
+#include <time.h>
 #include "entity.cpp"
 
 void damagePhase() {
 
 }
 
-int main() {
-    bool running = true;
-    std::cout << "Welcome to the Mentor game!" << std::endl;
-
+void playerInitalization() {
+    std::cout << "What name will you chose?" << std::endl;
     std::string name;
     std::cin >> name;
     player p(name);
+    std::cout << "Here are your Stats!" << std::endl;
+    p.stats();
+}
+
+int main() {
+    bool running = true;
+    std::cout << "Welcome to the Mentor game!" << std::endl;
+    srand(time(NULL));
+
+    playerInitalization();
+    
+
     
     while (running == true) {
         int amount;
