@@ -64,7 +64,9 @@
         "algorithm": "cpp",
         "functional": "cpp",
         "iterator": "cpp",
-        "utility": "cpp"
+        "utility": "cpp",
+        "charconv": "cpp",
+        "format": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }
