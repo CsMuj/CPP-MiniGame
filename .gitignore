@@ -6,3 +6,4 @@ game
 *.o
 *.swp
 *.vscode
+*player

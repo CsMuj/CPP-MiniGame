@@ -1,12 +1,13 @@
 #include <string>
 #include <iostream>
 #include <vector>
-#include <format>
 
+// A function that takes a min and max, x and y and give you a value between that.
 int random(int x, int y) {
     return (rand() % (y - x)) + x;
 }
 
+// entity class, general outline for all mobs, npcs, bosses and the player
 class entity {
     public:
         std::string named;
@@ -16,7 +17,8 @@ class entity {
         int attackPoints;
         int luckPoints;
         int actionPoints;
-        std::vector<std::string> special_skills;
+        int staminaPoints;
+        // std::vector<std::string> actions = {": Attack - 3 stamina",": Block + 5 stamina", ": Parry and thrust - 2 Stamina"};
         bool damageStep(entity& attacker);
         void stats();
 
@@ -28,27 +30,28 @@ class entity {
             attackPoints = random(1 + stage, 5 + stage);
             luckPoints = random(1 + stage, 5 + stage);
             actionPoints = random(1 + stage, 2 + stage);
+            staminaPoints = 10;
         }
 };
 
+// player class, given to the player and there respective characters
 class player : public entity {
     public: 
-        int staminaPoints;
         int level;
         int exp;
         void levelUp();
 
-        // Ask about the contstructor
+        // -Ask about the contstructor
         player(std::string name, int stage) 
         : entity(name, stage) {
-            staminaPoints = 10;
             level = 1;
             exp = 0;
         }
 };
 
+// A function that runs through calculations, having a phase deciding dodge or crit, then calculating damage
 bool entity::damageStep(entity& attacker) {
-    int modifier = random(1,100);
+    double modifier = random(1,100);
 
     if (100 - luckPoints <= modifier) {
         modifier = 0;
@@ -59,18 +62,19 @@ bool entity::damageStep(entity& attacker) {
         std::cout << "Critcal Hit!" << std::endl;
     }
 
-    std::cout << (((2 * 15) + 10) / 250) * ((attacker.attackPoints / defencePoints) * 10 + 2) * modifier  << std::endl;
-    hitPoints -= (((2 * 15) + 10) / 250) * ((attacker.attackPoints / defencePoints) * 10 + 2) * modifier;
+    std::cout << ((2 * attacker.attackPoints) - (2 * defencePoints)) + 1 * modifier;
+    std::cout << " Damage Done!" << std::endl;
+    hitPoints -= ((2 * attacker.attackPoints) - (2 * defencePoints)) + 1 * modifier;
 
-    // if (hitPoints < 0) {
-    //     std::cout << "Dead!" << std::endl;
-    //     return false;
-    // }
+    if (hitPoints < 0) {
+        std::cout << "Dead!" << std::endl;
+    }
 
-    std::cout <<  std::format("Remaining HP: \033[1;31{}\033[0m\n", hitPoints) << std::endl;
+    std::cout << "Remaining HP: " <<  hitPoints << std::endl;
     return true;
 }
 
+// A function that randomly decides level up bonuses for a player
 void player::levelUp() {
     level += 1;  
     hitPoints += random(0, 5);
@@ -83,6 +87,7 @@ void player::levelUp() {
     stats();
 }
 
+// A function to display all the stats of a entity
 void entity::stats() {
     std::cout << "Hit Points: " << hitPoints << std::endl << "Defence: " << defencePoints << std::endl << "Attack: "<< attackPoints << std::endl << "Luck: " << luckPoints << std::endl << "Action Speed: " << actionPoints << std::endl;
 }
